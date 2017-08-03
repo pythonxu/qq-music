@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MHeader></MHeader>
+    <m-header></m-header>
     <router-view></router-view>
   </div>
 </template>
@@ -8,10 +8,11 @@
 <script type="text/ecmascript-6">
   import MHeader from 'components/m-header/m-header'
 
-
-export default {
-  component: MHeader
-}
+  export default {
+    components: {
+      MHeader
+    }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
