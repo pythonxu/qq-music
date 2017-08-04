@@ -1,8 +1,12 @@
 <template>
   <div class="recommend">
-    <div class="slider-wrapper">
+    <div v-if="recommends.length" class="slider-wrapper">
       <slider>
-
+        <div v-for="item in recommends">
+          <a :href="item.linkUrl">
+            <img :src="item.picUrl">
+          </a>
+        </div>
       </slider>
     </div>
   </div>
@@ -41,4 +45,13 @@
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  @import "~common/stylus/variable"
+  
+  .recommend
+    position: relative
+    width: 100%
+    .slider-wrapper
+      position: relative
+      width: 100%
+      overflow: hidden
 </style>
