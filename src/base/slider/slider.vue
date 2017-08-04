@@ -43,12 +43,19 @@
         this._initSlider()
         if (this.autoPlay) this._play()
       }, 20)
+      window.addEventListener('resize', () => {
+        if (!this.slider) {
+          return
+        }
+        this._setSliderWidth(true)
+        this.slider.refresh()
+      })
     },
     methods: {
       _initDots() {
         this.dots = new Array(this.children.length)
       },
-      _setSliderWidth() {
+      _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
         let width = 0
         let sliderWidth = this.$refs.slider.clientWidth
@@ -59,7 +66,7 @@
           width += sliderWidth
         }
 
-        if (this.loop) width += 2 * sliderWidth
+        if (this.loop && !isResize) width += 2 * sliderWidth
         this.$refs.sliderGroup.style.width = width + 'px'
       },
       _initSlider() {
