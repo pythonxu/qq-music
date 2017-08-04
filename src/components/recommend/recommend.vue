@@ -13,7 +13,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Slider from 'components/slider/slider'
+  import Slider from 'base/slider/slider'
   import {getRecommend} from  'api/recommend'
   import {ERR_OK} from 'api/config'
 
@@ -46,7 +46,7 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
-  
+
   .recommend
     position: relative
     width: 100%
