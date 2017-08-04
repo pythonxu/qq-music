@@ -9,7 +9,10 @@
 
 <script type="text/ecmascript-6">
   import {addClass} from 'common/js/dom'
+  import BScroll from 'better-scroll'
+
   export default {
+    name: 'slider',
     props: {
       loop: {
         type: Boolean,
@@ -53,7 +56,15 @@
         this.$refs.sliderGroup.style.width = width + 'px'
       },
       _initSlider() {
-
+        this.slider = new BScroll(this.$refs.slider, {
+          scrollX: true,
+          scrollY: false,
+          momentum: false,
+          snap: true,
+          snapLoop: this.loop,
+          snapThreshold: 0.3,
+          snapSpeed: 400
+        })
       }
     }
   }
@@ -81,5 +92,4 @@
         img
           display: block
           width: 100%
-
 </style>
