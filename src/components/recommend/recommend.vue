@@ -6,7 +6,7 @@
           <slider>
             <div v-for="item in recommends">
               <a :href="item.linkUrl">
-                <img :src="item.picUrl">
+                <img @load="_loadImage" class="needsclick" :src="item.picUrl">
               </a>
             </div>
           </slider>
@@ -27,12 +27,16 @@
         </div>
       </div>
     </scroll>
+    <div class="loading-container" v-show="!discList.length">
+      <loading ></loading>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Slider from 'base/slider/slider'
   import Scroll from 'base/scroll/scroll'
+  import Loading from 'base/loading/loading'
   import {getRecommend, getDiscList} from  'api/recommend'
   import {ERR_OK} from 'api/config'
 
@@ -64,11 +68,20 @@
             this.discList = res.data.list
           }
         })
+      },
+      _loadImage() {
+        if (!this.isCheck) {
+          this.isCheck = !this.isCheck
+          setTimeout(() => {
+            this.$refs.scroll.refresh()
+          },20)
+        }
       }
     },
     components: {
       Slider,
-      Scroll
+      Scroll,
+      Loading
     }
   }
 </script>
@@ -117,4 +130,10 @@
           color: $color-text
         .desc
           color: $color-text-d
+    .loading-container
+      position: absolute
+      width: 100%
+      top: 50%
+      transform: translateY(-50%)
+
 </style>
