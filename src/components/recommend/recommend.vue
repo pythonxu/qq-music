@@ -32,7 +32,6 @@
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
             this.recommends = res.data.slider
-            console.log(this.recommends)
           }
         }, (err) => {
           console.log(err.code)
@@ -41,10 +40,8 @@
       _getDiscList() {
         getDiscList().then((res) => {
           if (res.code === ERR_OK) {
-            console.log(1)
+            console.log(2)
           }
-        }, (err) => {
-          console.log(err.code)
         })
       }
     },
