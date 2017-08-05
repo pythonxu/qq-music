@@ -51,6 +51,9 @@
         this.slider.refresh()
       })
     },
+    destroyed() {
+      if (this.autoPlay) clearTimeout(this.timer)
+    },
     methods: {
       _initDots() {
         this.dots = new Array(this.children.length)
