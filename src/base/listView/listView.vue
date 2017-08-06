@@ -79,6 +79,11 @@
         this.scrollY = pos.y
       },
       _scrollTo(index) {
+        // 滑动右侧栏超出边界后重置index
+        if (!index && index !== 0) return
+        if (index < 0) index = 0
+        else if (index > this.listHeight.length - 2) index = this.listHeight.length - 2
+        this.scrollY = -this.listHeight[index]
         this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
       },
       _calculateHeight() {
