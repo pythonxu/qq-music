@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueLazyload from 'vue-lazyload'
+import store from './store'
+
 // 把一些基础样式导入
 import 'common/stylus/index.styl'
 
@@ -19,6 +21,7 @@ Vue.use(VueLazyload,{
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   render: h => h(App)
 })

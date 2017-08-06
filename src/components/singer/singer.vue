@@ -10,6 +10,7 @@
   import Singer from 'common/js/singer'
   import ListView from 'base/listView/listView'
   import {ERR_OK} from 'api/config'
+  import  {mapMutations} from 'vuex'
 
   const HOT_SINGER_LEN = 10
   const HOT_NAME = '热门'
