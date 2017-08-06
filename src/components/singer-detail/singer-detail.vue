@@ -5,6 +5,18 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapGetters} from 'vuex'
+
+  export  default {
+    computed: {
+      ...mapGetters([
+        'singer'    // 在getter.js中做了挂载
+      ])
+    },
+    created() {
+      console.log(this.singer)
+    }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

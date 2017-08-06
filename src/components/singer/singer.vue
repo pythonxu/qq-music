@@ -29,6 +29,7 @@
         this.$router.push({
           path: `/singer/${singer.id}`
         })
+        this.setSinger(singer)
       },
       _getSingerList() {
         getSingerList().then((res) => {
@@ -79,7 +80,10 @@
           return a.title.charCodeAt(0) - b.title.charCodeAt(0)
         })
         return hot.concat(ret)
-      }
+      },
+      ...mapMutations({
+        setSinger: 'SET_SINGER'
+      })
     }
     ,
     components: {

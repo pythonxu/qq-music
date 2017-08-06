@@ -8,13 +8,13 @@ import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
 
-const  debug = process.env.NODE_ENV !== 'prodction'
+const debug = process.env.NODE_ENV !== 'production'
 
-export default  new Vuex.Store({
+export default new Vuex.Store({
   actions,
   getters,
   state,
   mutations,
   strict: debug,  // 开启严格模式
-  plugins: debug? [createLogger()]:[]
+  plugins: debug ? [createLogger()] : []
 })
