@@ -1,12 +1,13 @@
 <template>
   <div class="singer">
-    singer
+    <ListView :data="singers"></ListView>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {getSingerList} from 'api/singer'
   import Singer from 'common/js/singer'
+  import ListView from 'base/listView/listView'
   import {ERR_OK} from 'api/config'
 
   const HOT_SINGER_LEN = 10
@@ -72,6 +73,10 @@
         })
         return hot.concat(ret)
       }
+    }
+    ,
+    components: {
+      ListView
     }
   }
 </script>
