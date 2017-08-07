@@ -106,7 +106,7 @@
       },
       cdCls() {
         return this.playing ? 'play' : 'play pause'
-      }
+      },
       ...mapGetters([
         'fullScreen',
         'playlist',
