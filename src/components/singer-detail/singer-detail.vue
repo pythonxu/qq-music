@@ -7,9 +7,15 @@
 <script type="text/ecmascript-6">
   import {mapGetters} from 'vuex'
   import {getSingerDetail} from 'api/singer.js'
+  import {createSong} from 'common/js/song'
   import {ERR_OK} from 'api/config'
 
   export  default {
+    data() {
+      return {
+        songs: []
+      }
+    },
     computed: {
       ...mapGetters([
         'singer'    // 在getter.js中做了挂载
@@ -26,12 +32,20 @@
         }
         getSingerDetail(this.singer.id).then((res) => {
           if (res.code === ERR_OK) {
-            console.log(res.data.list)
-
+            this.songs = this._normalizeSongs(res.data.list)
           }
         })
       },
-      _normalize
+      _normalizeSongs(list) {
+        let ret = []
+        list.forEach((item) => {
+          let {musicData} = item
+          if (musicData.songid && musicData.albummid) {
+            ret.push(createSong(musicData))
+          }
+        })
+        return ret
+      }
     }
   }
 </script>
