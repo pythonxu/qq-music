@@ -1,6 +1,11 @@
 <template>
   <div class="player" v-show="playlist.length>0">
-    <transition name="normal">
+    <transition name="normal"
+                @enter="enter"
+                @after-enter="afterEnter"
+                @leave="leave"
+                @after-leave="afterLeave"
+    >
       <div class="normal-player" v-show="fullScreen">
         <div class="background">
           <img width="100%" height="100%" :src="currentSong.image">
@@ -83,6 +88,10 @@
 <script type="text/ecmascript-6">
   import {mapGetters, mapMutations} from 'vuex'
   import Scroll from 'base/scroll/scroll'
+  import animations from 'create-keyframe-animation'
+  import {prefixStyle} from 'common/js/dom'
+
+  const transform =  prefixStyle('transform')
 
   export default {
     computed: {
@@ -98,6 +107,64 @@
       },
       open() {
         this.setFullScreen(true)
+      },
+      // 动画钩子函数 @enter="enter" done就是会跳掉afterEnter
+      enter(el, done) {
+        const {x,y,scale} = this._getPosAndScale()
+
+        // 第三方库创建css3动画
+        let animation = {
+          0: {
+            transform: `translate3d(${x}px,${y}px,0) scale(${scale})`
+          },
+          60: {
+            transform: `translate3d(0, 0, 0) scale(1.1)`
+          },
+          100: {
+            transform: `translate3d(0, 0, 0) scale(1)`
+          }
+        }
+
+        animations.registerAnimation({
+          name: 'move',
+          animation,
+          presets: {
+            duration: 400,
+            easing: 'linear'
+          }
+        })
+
+        animations.runAnimation(this.$refs.cdWrapper, 'move', done)
+      },
+      afterEnter() {
+        // 和vue的transition动画很像，（第一侦应用初始数据及class,用完remove）
+        animations.unregisterAnimation('move')
+        this.$refs.cdWrapper.style.animation = ''
+      },
+      leave(el, done) {
+        this.$refs.cdWrapper.style.transition = 'all 0.4s'
+        const {x, y, scale} = this._getPosAndScale()
+        this.$refs.cdWrapper.style[transform] = `translate3d(${x}px,${y}px,0) scale(${scale})`
+        this.$refs.cdWrapper.addEventListener('transitionend', done)
+      },
+      afterLeave() {
+        this.$refs.cdWrapper.style.transition = ''
+        this.$refs.cdWrapper.style[transform] = ''
+      },
+      _getPosAndScale() {
+        const targetWidth = 40    // 歌曲小图标的宽度
+        const paddingLeft = 40    // 歌曲小图标中心离左边界40
+        const paddingBottom = 30  // 歌曲小图标底部离下边界30
+        const paddingTop = 80     // cd大图顶部离上边界80
+        const width = window.innerWidth * 0.8 // cd图宽度
+        const scale = targetWidth / width  // 初始缩放比例
+        const x = -(window.innerWidth / 2 - paddingLeft)  // 初始x
+        const y = window.innerHeight - paddingTop - width / 2 - paddingBottom    // 初始y
+        return {
+          x,
+          y,
+          scale
+        }
       },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN'
