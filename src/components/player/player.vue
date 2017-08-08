@@ -38,10 +38,10 @@
             <span class="dot"></span>
           </div>
           <div class="progress-wrapper">
-            <span class="time time-l"></span>
+            <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
             </div>
-            <span class="time time-r"></span>
+            <span class="time time-r">{{format(currentTime)}}</span>
           </div>
           <div class="operators">
             <div class="icon i-left">
@@ -81,7 +81,7 @@
         </div>
       </div>
     </transition>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error"></audio>
+    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"></audio>
   </div>
 </template>
 
@@ -96,7 +96,8 @@
   export default {
     data() {
       return {
-        songReady: false
+        songReady: false,
+        currentTime: 0
       }
     },
     computed: {
@@ -122,6 +123,9 @@
       ])
     },
     methods: {
+      updateTime(e) {
+        this.currentTime = e.target.currentTime     // audio自己的可读写属性,当前播放到的时间
+      },
       prev() {
         if (!this.songReady) return
         let index = this.currentIndex - 1
@@ -199,6 +203,12 @@
       },
       togglePlaying() {
         this.setPlayingState(!this.playing)
+      },
+      format(interval) {
+        interval = interval | 0      // 向下取整
+        const minute = interval / 60 | 0
+        const second = interval % 60
+        return `${minute}:${second}`
       },
       _getPosAndScale() {
         const targetWidth = 40    // 歌曲小图标的宽度
