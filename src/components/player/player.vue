@@ -208,16 +208,24 @@
       format(interval) {
         interval = interval | 0      // 向下取整
         const minute = interval / 60 | 0
-        const second = interval % 60
+        const second = this._pad(interval % 60)
         return `${minute}:${second}`
       },
+      _pad(num, n = 2) {
+        let len = num.toString().length
+        while(len < n) {
+          num = '0' + num
+          len++
+        }
+        return num
+      },
       _getPosAndScale() {
-        const targetWidth = 40    // 歌曲小图标的宽度
-        const paddingLeft = 40    // 歌曲小图标中心离左边界40
-        const paddingBottom = 30  // 歌曲小图标底部离下边界30
-        const paddingTop = 80     // cd大图顶部离上边界80
-        const width = window.innerWidth * 0.8 // cd图宽度
-        const scale = targetWidth / width  // 初始缩放比例
+        const targetWidth = 40                    // 歌曲小图标的宽度
+        const paddingLeft = 40                    // 歌曲小图标中心离左边界40
+        const paddingBottom = 30                  // 歌曲小图标底部离下边界30
+        const paddingTop = 80                     // cd大图顶部离上边界80
+        const width = window.innerWidth * 0.8     // cd图宽度
+        const scale = targetWidth / width         // 初始缩放比例
         const x = -(window.innerWidth / 2 - paddingLeft)  // 初始x
         const y = window.innerHeight - paddingTop - width / 2 - paddingBottom    // 初始y
         return {
