@@ -343,6 +343,7 @@
         const touch = e.touches[0]
         const deltaX = touch.pageX - this.touch.startX
         const deltaY = touch.pageY - this.touch.startY
+        // 只支持横向滑动
         if (Math.abs(deltaY) > Math.abs(deltaX)) {
           return
         }
