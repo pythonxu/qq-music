@@ -41,7 +41,7 @@
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
             </div>
-            <span class="time time-r">{{format(currentTime)}}</span>
+            <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
           <div class="operators">
             <div class="icon i-left">
@@ -134,7 +134,8 @@
         if (!this.playing) {
           this.togglePlaying()
         }
-        this.playing = false
+        // 快速点击解决,audio 准备好了会自动派送事件,在那里重置
+        this.songReady = false;
       },
       next() {
         if (!this.songReady) return
@@ -144,7 +145,7 @@
         if (!this.playing) {
           this.togglePlaying()
         }
-        this.playing = false
+        this.songReady = false;
       },
       back() {
         this.setFullScreen(false)
