@@ -50,7 +50,13 @@
         this._triggerPercent()
       },
       progressClick(e) {
-        this._offset(e.offsetX)
+        // 获取progressBar左边X距离
+        const rect = this.$refs.progressBar.getBoundingClientRect()
+        const offsetWidth = e.pageX - rect.left
+        this._offset(offsetWidth)
+        // 点击progressBtn的时候,offsetX会不正确
+        // e.pageX  点击的点到屏幕距离   e.offsetX  点击到控件距离
+        // this._offset(e.offsetX)
         this._triggerPercent()
       },
       _triggerPercent() {
