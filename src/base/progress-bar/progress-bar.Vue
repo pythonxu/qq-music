@@ -12,7 +12,27 @@
 <script type="text/ecmascript-6">
   import {prefixStyle} from 'common/js/dom'
 
-  export default {}
+  const progressBtnWidth = 16
+  const transform = prefixStyle('transform')
+
+  export default {
+    props: {
+      percent: {
+        type: Number,
+        default: 0
+      }
+    },
+    watch: {
+      percent(newPercent) {
+        if (newPercent >= 0) {
+          const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
+          const offsetWidth = newPercent * barWidth
+          this.$refs.progress.style.width = `${offsetWidth}px`
+          this.$refs.progressBtn.style[transform] = `translate3d(${offsetWidth}px,0,0)`
+        }
+      }
+    }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
