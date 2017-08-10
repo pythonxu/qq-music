@@ -57,6 +57,9 @@
       this._getHotKey()
     },
     methods: {
+      saveSearch() {
+        this.saveSearchHistory(this.query)
+      },
       blurInput() {
         this.$refs.searchBox.blur()
       },
@@ -80,7 +83,8 @@
         })
       },
       ...mapActions([
-        'clearSearchHistory'
+        'clearSearchHistory',
+        'saveSearchHistory'
       ])
     },
     watch: {
