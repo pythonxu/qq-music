@@ -57,6 +57,9 @@
       this._getHotKey()
     },
     methods: {
+      blurInput() {
+        this.$refs.searchBox.blur()
+      },
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
 

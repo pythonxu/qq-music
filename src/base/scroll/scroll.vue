@@ -13,10 +13,6 @@
         type: Number,
         default: 1
       },
-      listenScroll: {
-        type: Boolean,
-        default: false
-      },
       click: {
         type: Boolean,
         default: true
@@ -28,7 +24,24 @@
       data: {
         type: Array,
         default: null
+      },
+      pullup: {
+        type: Boolean,
+        default: false
+      },
+      beforeScroll: {
+        type: Boolean,
+        default: false
+      },
+      refreshDelay: {
+        type: Number,
+        default: 20
       }
+    },
+    mounted() {
+      setTimeout(() => {
+        this._initScroll()
+      }, 20)
     },
     methods: {
       _initScroll() {
@@ -37,13 +50,29 @@
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
-          click: this.click,
+          click: this.click
         })
 
         if (this.listenScroll) {
           let me = this
           this.scroll.on('scroll', (pos) => {
             me.$emit('scroll', pos)
+          })
+        }
+
+        // 是否允许上拉加载
+        if (this.pullup) {
+          this.scroll.on('scrollEnd', () => {
+            if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+              this.$emit('scrollToEnd')
+            }
+          })
+        }
+
+        // 在滚动前,会派发一个事件
+        if (this.beforeScroll) {
+          this.scroll.on('beforeScrollStart', () => {
+            this.$emit('beforeScroll')
           })
         }
       },
@@ -63,21 +92,16 @@
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
-    mounted() {
-      setTimeout(() => {
-        this._initScroll()
-      },20)
-    },
     watch: {
       data() {
         setTimeout(() => {
           this.refresh()
-        }, 20)
+        }, this.refreshDelay)
       }
     }
   }
-
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+
 </style>
