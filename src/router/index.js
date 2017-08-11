@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect:'/recommend'
+      redirect: '/recommend'
     },
     {
       path: '/recommend',
@@ -27,8 +27,8 @@ export default new Router({
       ]
     },
     {
-      path: '/search',
-      component: Search,
+      path: '/singer',
+      component: Singer,
       children: [
         {
           path: ':id',
@@ -37,8 +37,18 @@ export default new Router({
       ]
     },
     {
-      path: '/singer',
-      component: Singer,
+      path: '/rank',
+      component: Rank,
+      children: [
+        {
+          path: ':id',
+          component: TopList
+        }
+      ]
+    },
+    {
+      path: '/search',
+      component: Search,
       children: [
         {
           path: ':id',
