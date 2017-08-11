@@ -28,10 +28,9 @@
       },
       blur() {
         this.$refs.query.blur()
+      },setQuery(query) {
+        this.query = query
       }
-    },
-    setQuery(query) {
-      this.query = query
     },
     created() {
       // 子组件传值给父组件一般用watch,然后this.$emit派发事件
